@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎉 Birthday 🎂</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 4em;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .cake {
+            width: 200px;
+            margin: 30px auto;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 700px;
+            font-size: 1.2em;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .lord {
+            margin-top: 40px;
+            color: cyan;
+        }
+
+        /* Balonlar animatsiyasi */
+        .balloons {
+            position: relative;
+            height: 200px;
+            margin: 40px auto;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: 0;
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to top, #ff4081, #ff80ab);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: rise 20s linear infinite;
+        }
+
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 15px;
+            width: 10px;
+            height: 20px;
+            background: black;
+            border-radius: 2px;
+        }
+
+        @keyframes rise {
+            0% { transform: translateX(0) translateY(0); opacity: 1; }
+            100% { transform: translateX(20px) translateY(-100vh); opacity: 0.8; }
+        }
+
+        .balloon:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .balloon:nth-child(2) {
+            left: 30%;
+            animation-delay: 5s;
+        }
+
+        .balloon:nth-child(3) {
+            left: 50%;
+            animation-delay: 10s;
+        }
+
+        .balloon:nth-child(4) {
+            left: 70%;
+            animation-delay: 15s;
+        }
+
+        .balloon:nth-child(5) {
+            left: 90%;
+            animation-delay: 20s;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .cake {
+                width: 150px;
+            }
+
+            .message {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    
+    <div class="container">
+        <h1>🎉 Happy birthday Robiya! 🎂</h1>
+        
+        <div class="message">
+            <p>🎉 Qadrli Robiya, tug'ilgan kuning bilan! 🎂</p>
+            <p>Sening tug'ilgan kuning — bu osmonda yangi yulduz yonayotgandek, yuragimizda yangi nihol urayotgandek. Bugun hammasi sen uchun nurbargina nurlanyapti: quyosh ilhom berayotgan qo'shni, shamollar sizga xushbo'y guldan xabar berayotgan kabi...</p>
+            <p>Senga faqatgina <strong>xursandchilik</strong>, <strong>sog'liq</strong>, <strong>omad</strong> va <strong>muaffaqiyat</strong> tilayman. Hayotingning har bir sahifasi chiroyli kitobdek ochilsin, har bir kuning shirin shokoladdek ta'm tutsin!</p>
+            <p><em>Yulduzlar sizga yo'l ko'rsatsin,</em><br>
+            <em>Shuhratlar seni o'rab tursin,</em><br>
+            <em>Ko'nglingda doim bahor hukmron bo'lsin!</em> 🌸</p>
+            <p>Robiya, senga eng yaxshi narsalardan zavq olishni va doim <strong>yaxshilikka ishonishni</strong> tilayman. Sen doim shamolga qaramay, quyoshga o'xshab yorishib tur!</p>
+            <p><strong>Tabriklayman! 🎉💖</strong></p>
+            <h6 class="lord">From: Lord</h6>
+        </div>
+
+        <!-- Balonlar animatsiyasi -->
+        <div class="balloons">
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+            <div class="balloon"></div>
+        </div>
+    </div>
+
+    <script>
+        // Confetti effekti
+        const canvas = document.getElementById("confetti-canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let confetti = [];
+        const colors = ["#ff4081", "#fbc02d", "#4caf50", "#2196f3", "#9c27b0"];
+
+        function createConfetti() {
+            for(let i = 0; i < 150; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * 50 + 10,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.floor(Math.random() * 10) - 10,
+                    tiltAngleIncremental: (Math.random() * 0.07) + .05,
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confetti.forEach((c, i) => {
+                ctx.beginPath();
+                ctx.lineWidth = c.r;
+                ctx.strokeStyle = c.color;
+                ctx.moveTo(c.x, c.y);
+                ctx.lineTo(c.x + c.tilt + (c.r / 2), c.y + c.r + c.tilt);
+                ctx.stroke();
+            });
+            
+            update();
+        }
+
+        let time = 0;
+        function update() {
+            confetti.forEach((c, i) => {
+                c.tiltAngle += c.tiltAngleIncremental;
+                c.y += (Math.cos(time + c.d) + 3 + c.r / 2) / 2;
+                c.x += Math.sin(time);
+                c.tilt = Math.sin(c.tiltAngle) * 15;
+
+                if(c.y > canvas.height) {
+                    c.y = -20;
+                    c.x = Math.random() * canvas.width;
+                }
+            });
+            time++;
+        }
+
+        // Confetti animatsiyasini avtomatik ishga tushirish
+        function launchConfetti() {
+            createConfetti();
+            setInterval(draw, 20);
+        }
+
+        // Sahifaga kirganda confetti ishga tushadi
+        window.addEventListener('DOMContentLoaded', () => {
+            launchConfetti();
+        });
+
+        // Responsive canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
